@@ -42,3 +42,14 @@ corporacion-azul-platform/
 │   └── decisions/
 ├── .gitignore
 └── README.md
+```
+
+### Directory Responsibilities
+
+- `frontend/`: Contains the public web application built with React and TypeScript.
+- `backend/`: Contains the Laravel application and REST API.
+- `docs/architecture/`: Contains architecture documentation and C4 diagrams.
+- `docs/requirements/`: Contains functional and non-functional requirements.
+- `docs/decisions/`: Contains Architecture Decision Records (ADRs) and other relevant technical decisions.
+- `.gitignore`: Defines files and directories that Git should not track.
+- `README.md`: Provides the main overview, setup information, and documentation entry point for the project.
