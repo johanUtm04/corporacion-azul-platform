@@ -22,7 +22,7 @@ Current phase: Initial architecture and repository setup.
 - REST API
 
 ### Database
-- PostgreSQL
+- MySQL
 
 ### Cache
 - Redis
