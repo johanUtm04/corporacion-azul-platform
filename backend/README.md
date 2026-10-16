@@ -1,58 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Corporación Azul Platform — Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel backend for Corporación Azul Platform.
 
-## About Laravel
+## Local Development Environment (Docker / Laravel Sail)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project uses Laravel Sail to run the backend with PHP, MySQL, and Redis inside Docker containers.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Docker Desktop with the Linux engine running
+- Docker Compose
+- Git
 
-## Learning Laravel
+### Initial Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+From the `backend` directory, copy the example environment configuration:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+cp .env.example .env
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+On Windows CMD, use `copy .env.example .env` instead.
 
-## Contributing
+Update `.env` with your local development credentials before starting the containers for the first time.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The development services use the following ports:
 
-## Code of Conduct
+| Service | Host port | Container port |
+|---|---|---|
+| Laravel | 8080 | 80 |
+| MySQL | 3307 | 3306 |
+| Redis | 63790 | 6379 |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Start the Environment
 
-## Security Vulnerabilities
+From the repository root, run:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+docker compose --project-directory backend -f backend/compose.yaml up -d --build
+```
 
-## License
+### Generate the Application Key
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+For a new installation:
+
+```bash
+docker compose --project-directory backend -f backend/compose.yaml exec laravel.test php artisan key:generate
+```
+
+### Run Database Migrations
+
+```bash
+docker compose --project-directory backend -f backend/compose.yaml exec laravel.test php artisan migrate
+```
+
+On the first initialization, the MySQL container creates the database and database user using the values from `.env`.
+
+**Important:** Once the MySQL volume has been initialized, changing database names or credentials in `.env` does not automatically update the existing MySQL database or user permissions.
+
+### Access the Application
+
+Open:
+
+http://localhost:8080
+
+### Run Tests
+
+```bash
+docker compose --project-directory backend -f backend/compose.yaml exec laravel.test php artisan test
+```
+
+Tests are configured to use the separate `testing` MySQL database. Never run destructive test or migration commands against a database containing important data.
+
+### Stop the Environment
+
+```bash
+docker compose --project-directory backend -f backend/compose.yaml down
+```
+
+This stops and removes the development containers while preserving the MySQL and Redis named volumes.
+
+Avoid using `down -v` unless you explicitly intend to delete the development volumes and their stored data.
+
+### Environment Files
+
+- `.env.example` — Version-controlled configuration template.
+- `.env` — Local configuration containing environment-specific credentials; excluded from Git.
+
+Never commit real credentials, application keys, or other secrets.
+
+---
