@@ -24,3 +24,10 @@ frontend/dist/
 # Operating system files
 .DS_Store
 Thumbs.db
+
+# OpenCode AI Agent & CLI internal files
+.opencode/
+*.opencode.json
+opencode.config.json
+opencode-logs/
+.opencode-cache/
