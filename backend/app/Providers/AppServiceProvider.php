@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
 
+//Rate Limiting Imports
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,7 +27,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Validate CORS configuration.
         $this->guardCorsConfiguration();
+
+        // Configure rate limiting for public submissions.
+        RateLimiter::for('public-submissions', function (Request $request) {
+            return Limit::perMinute(5)->by($request->ip());
+        });
     }
 
     /**
