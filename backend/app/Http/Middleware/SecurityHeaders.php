@@ -30,6 +30,14 @@ class SecurityHeaders
             'strict-origin-when-cross-origin'
         );
 
+        // Enforce HTTPS for production requests.
+        if (app()->environment('production') && $request->isSecure()) {
+            $response->headers->set(
+                'Strict-Transport-Security',
+                'max-age=300'
+            );
+        }
+
         return $response;
     }
 }
