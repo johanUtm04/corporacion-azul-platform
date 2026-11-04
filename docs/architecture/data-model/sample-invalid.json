@@ -1,0 +1,139 @@
+{
+  "brands": [
+    {
+      "public_id": "e2ae171c-7795-59b1-8a31-dfd28504990d",
+      "slug": "cruz-azul",
+      "name": "Cruz Azul",
+      "description": null,
+      "logo_media_id": null,
+      "website_url": null,
+      "display_order": 0
+    },
+    {
+      "public_id": "42c05651-4b4c-5392-87ad-be71b93115fd",
+      "slug": "cemix",
+      "name": "Cemix",
+      "description": null,
+      "logo_media_id": null,
+      "website_url": null,
+      "display_order": 1
+    }
+  ],
+  "categories": [
+    {
+      "public_id": "f80b64de-50a9-5526-97a3-0ba91b5e1660",
+      "slug": "cemento-y-cales",
+      "name": "Cement and lime",
+      "description": null,
+      "parent_category_ref": null,
+      "display_order": 0
+    },
+    {
+      "public_id": "10be816a-3d05-5c5f-845e-89219e21ba1e",
+      "slug": "acero",
+      "name": "Steel",
+      "description": null,
+      "parent_category_ref": null,
+      "display_order": 1
+    },
+    {
+      "public_id": "778da545-eb29-5cb3-9129-548445e554f6",
+      "slug": "adhesivos-y-recubrimientos",
+      "name": "Adhesives and coatings",
+      "description": null,
+      "parent_category_ref": null,
+      "display_order": 2
+    },
+    {
+      "public_id": "4d341990-fc3a-5523-abc9-a3c1f1d1f7d2",
+      "slug": "complementos-para-obra",
+      "name": "Construction complements",
+      "description": null,
+      "parent_category_ref": null,
+      "display_order": 3
+    }
+  ],
+  "regions": [
+    {
+      "public_id": "e98b7a91-8d43-5a9b-b750-6714f8498735",
+      "slug": "michoacan",
+      "name": "Michoacán",
+      "description": null,
+      "display_order": 0
+    }
+  ],
+  "legal_entities": [
+    {
+      "public_id": "53bceb3b-75fe-503a-ae9d-22776282aa0e",
+      "slug": "grupo-cruz-azul-de-valladolid",
+      "legal_name": "GRUPO CRUZ AZUL DE VALLADOLID S.A. DE C.V.",
+      "short_name": "Grupo Cruz Azul Valladolid",
+      "status": "publish"
+    }
+  ],
+  "products": [
+    {
+      "public_id": "b2dd28f6-0f44-5cd0-a537-d304e4db0680",
+      "slug": "cemento-cruz-azul-cpc-30r-rs-50kg",
+      "name": "Cemento Cruz Azul CPC 30R RS 50 kg",
+      "status": "publish",
+      "short_description": null,
+      "description": null,
+      "presentation": "50 kg bag",
+      "brand_ref": "e2ae171c-7795-59b1-8a31-dfd28504990d",
+      "category_refs": [
+        "f80b64de-50a9-5526-97a3-0ba91b5e1660"
+      ],
+      "featured_image_media_id": null,
+      "gallery_media_ids": [],
+      "technical_pdf_media_id": null,
+      "show_price": true,
+      "price_amount": null,
+      "price_currency": "MXN",
+      "show_availability": false,
+      "availability_note": null
+    },
+    {
+      "public_id": "6fac684a-240b-5b90-9401-fe6180351d05",
+      "slug": "cemix-pegazulejo-basic-blanco-20kg",
+      "name": "Cemix Pegazulejo Basic Blanco 20 kg",
+      "status": "publish",
+      "short_description": null,
+      "description": null,
+      "presentation": "20 kg bag",
+      "brand_ref": "42c05651-4b4c-5392-87ad-be71b93115fd",
+      "category_refs": [
+        "778da545-eb29-5cb3-9129-548445e554f6"
+      ],
+      "featured_image_media_id": null,
+      "gallery_media_ids": [],
+      "technical_pdf_media_id": null,
+      "show_price": false,
+      "price_amount": null,
+      "price_currency": "MXN",
+      "show_availability": false,
+      "availability_note": null
+    }
+  ],
+  "branches": [
+    {
+      "public_id": "834cdc16-43e4-5cf2-b5dc-c0ddccbd79c1",
+      "slug": "morelia-ciudad-industrial",
+      "name": "Morelia (Cd. Industrial)",
+      "status": "publish",
+      "address": null,
+      "city": "Morelia",
+      "state": "Michoacán",
+      "postal_code": null,
+      "phone": null,
+      "whatsapp": null,
+      "opening_hours": null,
+      "latitude": null,
+      "longitude": null,
+      "maps_url": null,
+      "region_ref": "891b9e6f-4b81-5b65-babb-f2ab7c693388",
+      "operating_entity_ref": "53bceb3b-75fe-503a-ae9d-22776282aa0e",
+      "fiscal_entity_ref": null
+    }
+  ]
+}
