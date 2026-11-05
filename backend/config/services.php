@@ -35,4 +35,7 @@ return [
         ],
     ],
 
+    'wordpress' => [
+        'base_url' => env('WORDPRESS_BASE_URL'),
+    ],
 ];
