@@ -101,55 +101,55 @@ class WordPressProductTest extends TestCase
 
 
 
-public function test_it_returns_a_normalized_product_collection(): void
-{
-    Http::fake([
-        'http://wordpress.test/*' => Http::response([
-            [
-                'id' => 10,
-                'slug' => 'cemento-cruz-azul',
-                'title' => ['rendered' => 'Cemento Cruz Azul'],
-                '_embedded' => [
-                    'wp:term' => [
-                        [
-                            ['name' => 'Cruz Azul', 'taxonomy' => 'ca_brand'],
-                        ],
-                        [
-                            ['name' => 'Cement and Lime', 'taxonomy' => 'ca_product_category'],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'id' => 11,
-                'slug' => 'adhesivo-cemix',
-                'title' => ['rendered' => 'Adhesivo Cemix'],
-                '_embedded' => [
-                    'wp:term' => [
-                        [
-                            ['name' => 'Cemix', 'taxonomy' => 'ca_brand'],
+    public function test_it_returns_a_normalized_product_collection(): void
+    {
+        Http::fake([
+            'http://wordpress.test/*' => Http::response([
+                [
+                    'id' => 10,
+                    'slug' => 'cemento-cruz-azul',
+                    'title' => ['rendered' => 'Cemento Cruz Azul'],
+                    '_embedded' => [
+                        'wp:term' => [
+                            [
+                                ['name' => 'Cruz Azul', 'taxonomy' => 'ca_brand'],
+                            ],
+                            [
+                                ['name' => 'Cement and Lime', 'taxonomy' => 'ca_product_category'],
+                            ],
                         ],
                     ],
                 ],
-            ],
-        ], 200, [
-            'X-WP-Total' => '2',
-            'X-WP-TotalPages' => '1',
-        ]),
-    ]);
+                [
+                    'id' => 11,
+                    'slug' => 'adhesivo-cemix',
+                    'title' => ['rendered' => 'Adhesivo Cemix'],
+                    '_embedded' => [
+                        'wp:term' => [
+                            [
+                                ['name' => 'Cemix', 'taxonomy' => 'ca_brand'],
+                            ],
+                        ],
+                    ],
+                ],
+            ], 200, [
+                'X-WP-Total' => '2',
+                'X-WP-TotalPages' => '1',
+            ]),
+        ]);
 
-    $this->getJson('/api/v1/products?page=1&per_page=10')
-        ->assertOk()
-        ->assertJsonCount(2, 'data')
-        ->assertJsonPath('data.0.name', 'Cemento Cruz Azul')
-        ->assertJsonPath('data.1.brand', 'Cemix')
-        ->assertJsonPath('pagination.page', 1)
-        ->assertJsonPath('pagination.per_page', 10)
-        ->assertJsonPath('pagination.total', 2)
-        ->assertJsonPath('pagination.total_pages', 1);
+        $this->getJson('/api/v1/products?page=1&per_page=10')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonPath('data.0.name', 'Cemento Cruz Azul')
+            ->assertJsonPath('data.1.brand', 'Cemix')
+            ->assertJsonPath('pagination.page', 1)
+            ->assertJsonPath('pagination.per_page', 10)
+            ->assertJsonPath('pagination.total', 2)
+            ->assertJsonPath('pagination.total_pages', 1);
 
-    Http::assertSentCount(1);
-}
+        Http::assertSentCount(1);
+    }
 
     public function test_it_returns_an_empty_product_collection(): void
     {
@@ -220,4 +220,78 @@ public function test_it_returns_a_normalized_product_collection(): void
             );
     }
 
+
+    public function test_it_forwards_combined_filters_to_wordpress(): void
+    {
+        Http::fake([
+            'http://wordpress.test/*' => Http::response([
+                [
+                    'id' => 10,
+                    'slug' => 'cemento-cruz-azul',
+                    'title' => ['rendered' => 'Cemento Cruz Azul'],
+                    '_embedded' => [
+                        'wp:term' => [
+                            [
+                                ['name' => 'Cruz Azul', 'taxonomy' => 'ca_brand'],
+                            ],
+                            [
+                                ['name' => 'Cement and Lime', 'taxonomy' => 'ca_product_category'],
+                            ],
+                        ],
+                    ],
+                ],
+            ], 200, [
+                'X-WP-Total' => '1',
+                'X-WP-TotalPages' => '1',
+            ]),
+        ]);
+
+        $this->getJson(
+            '/api/v1/products?brand=2&category=3&search=cemento&page=1&per_page=10'
+        )
+            ->assertOk()
+            ->assertJsonPath('data.0.brand', 'Cruz Azul')
+            ->assertJsonPath('pagination.total', 1);
+
+        Http::assertSent(function ($request): bool {
+            parse_str(
+                (string) parse_url($request->url(), PHP_URL_QUERY),
+                $query
+            );
+
+            return ($query['ca_brand'] ?? null) === '2'
+                && ($query['ca_product_category'] ?? null) === '3'
+                && ($query['search'] ?? null) === 'cemento'
+                && ($query['page'] ?? null) === '1'
+                && ($query['per_page'] ?? null) === '10';
+        });
+    }
+
+    public function test_it_returns_no_products_when_filters_do_not_match(): void
+    {
+        Http::fake([
+            'http://wordpress.test/*' => Http::response([], 200, [
+                'X-WP-Total' => '0',
+                'X-WP-TotalPages' => '0',
+            ]),
+        ]);
+
+        $this->getJson('/api/v1/products?brand=9999')
+            ->assertOk()
+            ->assertJsonPath('data', [])
+            ->assertJsonPath('pagination.total', 0);
+
+        Http::assertSentCount(1);
+    }
+
+    public function test_it_rejects_an_invalid_brand_filter(): void
+    {
+        Http::fake();
+
+        $this->getJson('/api/v1/products?brand=abc')
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['brand']);
+
+        Http::assertNothingSent();
+    }
 }
