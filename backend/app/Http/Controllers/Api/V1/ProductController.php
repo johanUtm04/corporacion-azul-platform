@@ -24,15 +24,23 @@ class ProductController extends Controller
         $validated = $request->validate([
             'page' => ['sometimes', 'integer', 'min:1'],
             'per_page' => ['sometimes', 'integer', 'between:1,100'],
+            'brand' => ['sometimes', 'integer', 'min:1'],
+            'category' => ['sometimes', 'integer', 'min:1'],
+            'search' => ['sometimes', 'string', 'max:100'],
         ]);
-
         $page = (int) ($validated['page'] ?? 1);
         $perPage = (int) ($validated['per_page'] ?? 10);
 
+        $filters = [
+            'brand' => $validated['brand'] ?? null,
+            'category' => $validated['category'] ?? null,
+            'search' => $validated['search'] ?? null,
+        ];
         try {
             $result = $client->getPaginatedProducts(
                 $page,
-                $perPage
+                $perPage,
+                $filters
             );
 
             $products = array_map(
