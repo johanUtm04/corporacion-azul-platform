@@ -38,4 +38,9 @@ return [
     'wordpress' => [
         'base_url' => env('WORDPRESS_BASE_URL'),
     ],
+
+    'wordpress_contact' => [
+        'url' => env('WP_CONTACT_BRIDGE_URL'),
+        'token' => env('WP_CONTACT_BRIDGE_TOKEN'),
+    ],
 ];
