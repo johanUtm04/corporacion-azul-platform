@@ -144,4 +144,37 @@ class ProductController extends Controller
             ], 502);
         }
     }
+
+    /**
+     * Retrieve available product brands and categories.
+     */
+    public function filters(WordPressClient $client): JsonResponse
+    {
+        try {
+            return response()->json(
+                $client->getProductFilters()
+            );
+
+        } catch (RequestException $exception) {
+            report($exception);
+
+            return response()->json([
+                'message' => 'Product filters are temporarily unavailable.',
+            ], 502);
+
+        } catch (ConnectionException $exception) {
+            report($exception);
+
+            return response()->json([
+                'message' => 'Product filters are temporarily unavailable.',
+            ], 503);
+
+        } catch (UnexpectedValueException $exception) {
+            report($exception);
+
+            return response()->json([
+                'message' => 'Invalid product filter data received.',
+            ], 502);
+        }
+    }
 }

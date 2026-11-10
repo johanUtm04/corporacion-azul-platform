@@ -294,4 +294,63 @@ class WordPressProductTest extends TestCase
 
         Http::assertNothingSent();
     }
+    public function test_it_returns_product_filter_options(): void
+    {
+        Http::fake([
+            'http://wordpress.test/wp-json/wp/v2/ca_brand*' =>
+                Http::response([
+                    [
+                        'id' => 2,
+                        'name' => 'Cruz Azul',
+                        'slug' => 'cruz-azul',
+                    ],
+                ], 200),
+
+            'http://wordpress.test/wp-json/wp/v2/ca_product_category*' =>
+                Http::response([
+                    [
+                        'id' => 3,
+                        'name' => 'Cement and Lime',
+                        'slug' => 'cement-and-lime',
+                    ],
+                ], 200),
+        ]);
+
+        $this->getJson('/api/v1/product-filters')
+            ->assertOk()
+            ->assertJsonPath('brands.0.id', 2)
+            ->assertJsonPath('brands.0.name', 'Cruz Azul')
+            ->assertJsonPath('categories.0.id', 3)
+            ->assertJsonPath('categories.0.name', 'Cement and Lime');
+
+        Http::assertSentCount(2);
+    }
+
+    public function test_it_handles_product_filter_server_errors(): void
+    {
+        Http::fake([
+            'http://wordpress.test/*' => Http::response([], 500),
+        ]);
+
+        $this->getJson('/api/v1/product-filters')
+            ->assertStatus(502)
+            ->assertJsonPath(
+                'message',
+                'Product filters are temporarily unavailable.'
+            );
+    }
+
+    public function test_it_handles_product_filter_connection_failures(): void
+    {
+        Http::fake([
+            'http://wordpress.test/*' => Http::failedConnection(),
+        ]);
+
+        $this->getJson('/api/v1/product-filters')
+            ->assertStatus(503)
+            ->assertJsonPath(
+                'message',
+                'Product filters are temporarily unavailable.'
+            );
+    }
 }
