@@ -20,7 +20,7 @@ export default function Header() {
       <header className="site-header">
         <NavLink to="/" className="site-logo" aria-label="Corporación Azul - Inicio">
         <img
-            src="/images/corporacion-azul-logo.webp"
+            src="/images/corporacion-azul-logo.png"
             alt="Corporación Azul"
         />
         </NavLink>

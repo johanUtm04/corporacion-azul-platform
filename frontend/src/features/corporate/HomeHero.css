@@ -1,0 +1,138 @@
+.home-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+  min-height: 520px;
+}
+
+.home-hero-content {
+  max-width: 620px;
+}
+
+.home-hero-eyebrow {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.home-hero h1 {
+  margin: 0 0 24px;
+  font-size: clamp(2.8rem, 4.5vw, 4.7rem);
+  line-height: 1.08;
+}
+
+.home-hero h1 span {
+  color: var(--color-primary);
+}
+
+.home-hero-content > p {
+  max-width: 490px;
+  margin-bottom: 32px;
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+.home-hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.home-hero-secondary {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 800;
+  transition: color 0.2s ease;
+}
+
+.home-hero-secondary:hover {
+  color: var(--color-accent);
+}
+
+/* Temporary architectural visual */
+
+.home-hero-visual {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, #103b70, #092749);
+}
+
+.home-hero-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(#fff 1px, transparent 1px),
+    linear-gradient(90deg, #fff 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.home-hero-shape {
+  position: absolute;
+  transform: rotate(-25deg);
+}
+
+.home-hero-shape-one {
+  width: 240px;
+  height: 500px;
+  left: 12%;
+  top: -10%;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.home-hero-shape-two {
+  width: 140px;
+  height: 500px;
+  left: 48%;
+  top: 5%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.home-hero-shape-three {
+  width: 90px;
+  height: 340px;
+  right: 12%;
+  bottom: -20%;
+  background: var(--color-accent);
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .home-hero-visual {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero {
+    min-height: auto;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  }
+
+  .home-hero-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .home-hero-visual {
+    min-height: 250px;
+  }
+}

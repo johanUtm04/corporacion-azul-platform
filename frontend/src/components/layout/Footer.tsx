@@ -18,7 +18,7 @@ export default function Footer() {
             aria-label="Corporación Azul - Inicio"
           >
             <img
-              src="/images/corporacion-azul-logo.webp"
+              src="/images/corporacion-azul-logo.png"
               alt="Corporación Azul"
             />
           </NavLink>

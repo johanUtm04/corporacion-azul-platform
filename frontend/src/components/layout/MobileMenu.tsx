@@ -49,7 +49,7 @@ export default function MobileMenu({
         onClick={onClose}
         >
         <img
-            src="/images/corporacion-azul-logo.webp"
+            src="/images/corporacion-azul-logo.png"
             alt="Corporación Azul"
         />
         </NavLink>
