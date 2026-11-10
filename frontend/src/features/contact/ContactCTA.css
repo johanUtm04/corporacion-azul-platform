@@ -1,0 +1,124 @@
+.contact-cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 380px;
+  margin: 30px 0 90px;
+  padding: clamp(40px, 6vw, 80px);
+  overflow: hidden;
+  isolation: isolate;
+
+  background: var(--color-primary-dark);
+  border-radius: 5px;
+}
+
+.contact-cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+
+.contact-cta-eyebrow {
+  display: block;
+  margin-bottom: 20px;
+  color: #ff6670;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.contact-cta h2 {
+  margin: 0 0 22px;
+  color: #ffffff;
+  font-size: clamp(2.3rem, 4vw, 3.8rem);
+  line-height: 1.13;
+}
+
+.contact-cta h2 span {
+  color: #b5cce9;
+}
+
+.contact-cta p {
+  max-width: 480px;
+  margin: 0 0 32px;
+  color: #c4d1df;
+  line-height: 1.8;
+}
+
+.contact-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+}
+
+.contact-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  min-height: 52px;
+  padding: 15px 24px;
+
+  background: #ffffff;
+  color: var(--color-primary-dark);
+  border-radius: 3px;
+
+  font-size: 0.85rem;
+  font-weight: 800;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.contact-cta-primary:hover {
+  background: #e5edf7;
+  transform: translateY(-2px);
+}
+
+.contact-cta-secondary {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  transition: color 0.2s ease;
+}
+
+.contact-cta-secondary:hover {
+  color: #ff8189;
+}
+
+/* Decorative architectural typography */
+
+.contact-cta-decoration {
+  position: absolute;
+  right: -30px;
+  bottom: -110px;
+  z-index: 0;
+
+  color: rgba(255, 255, 255, 0.035);
+  font-size: clamp(14rem, 30vw, 30rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.1em;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .contact-cta {
+    min-height: auto;
+    padding: 45px 26px;
+    margin: 20px 0 60px;
+  }
+
+  .contact-cta-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .contact-cta-decoration {
+    bottom: -45px;
+    font-size: 13rem;
+  }
+}

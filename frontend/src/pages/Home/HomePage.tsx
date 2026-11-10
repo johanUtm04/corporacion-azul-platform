@@ -1,7 +1,13 @@
-﻿export default function HomePage() {
+﻿import HomeHero from '../../features/corporate/HomeHero'
+import FeaturedBrands from '../../features/brands/FeaturedBrands'
+import ContactCTA from '../../features/contact/ContactCTA'
+
+export default function HomePage() {
   return (
-    <section>
-      <h1>Inicio</h1>
-    </section>
+    <>
+      <HomeHero />
+      <FeaturedBrands />
+      <ContactCTA />
+    </>
   )
 }
