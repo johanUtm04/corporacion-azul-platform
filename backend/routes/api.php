@@ -18,4 +18,6 @@ Route::prefix('v1')->group(function (): void {
 
     Route::post('/contact', ContactController::class)
         ->middleware('throttle:public-submissions');
+
+    Route::get('/product-filters', [ProductController::class, 'filters']);
 });

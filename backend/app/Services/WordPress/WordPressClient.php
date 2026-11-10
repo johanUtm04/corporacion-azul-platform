@@ -166,4 +166,62 @@ class WordPressClient
 
         return $baseUrl;
     }
+
+    /**
+     * Retrieve product filter options from WordPress.
+     */
+    public function getProductFilters(): array
+    {
+        $baseUrl = $this->getBaseUrl();
+
+        $taxonomies = [
+            'brands' => 'ca_brand',
+            'categories' => 'ca_product_category',
+        ];
+
+        $filters = [];
+
+        foreach ($taxonomies as $key => $taxonomy) {
+            $response = Http::acceptJson()
+                ->connectTimeout(3)
+                ->timeout(10)
+                ->get(
+                    "{$baseUrl}/wp-json/wp/v2/{$taxonomy}",
+                    ['per_page' => 100]
+                )
+                ->throw();
+
+            $terms = $response->json();
+
+            if (!is_array($terms) || !array_is_list($terms)) {
+                throw new UnexpectedValueException(
+                    'Invalid WordPress taxonomy response.'
+                );
+            }
+
+            $filters[$key] = array_map(
+                function (array $term): array {
+                    if (
+                        !isset($term['id'], $term['name'], $term['slug']) ||
+                        !is_int($term['id']) ||
+                        !is_string($term['name']) ||
+                        !is_string($term['slug'])
+                    ) {
+                        throw new UnexpectedValueException(
+                            'Invalid WordPress taxonomy term.'
+                        );
+                    }
+
+                    return [
+                        'id' => $term['id'],
+                        'name' => $term['name'],
+                        'slug' => $term['slug'],
+                    ];
+                },
+                $terms
+            );
+        }
+
+        return $filters;
+    }
 }
