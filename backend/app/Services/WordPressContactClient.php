@@ -20,7 +20,8 @@ class WordPressContactClient
 
         $response = Http::acceptJson()
             ->withToken($token)
-            ->timeout(10)
+            ->connectTimeout(3)
+            ->timeout(20)
             ->post($url, $data);
 
         $response->throw();
