@@ -10,6 +10,13 @@ import {
 } from '../../services/api/contact'
 import './ContactForm.css'
 
+//Rehusable Components
+import Button from '../../components/ui/Button/Button'
+import Input from '../../components/ui/Input/Input'
+import Select from '../../components/ui/Select/Select'
+import Textarea from '../../components/ui/Textarea/Textarea'
+import SectionLoader from '../../components/ui/SectionLoader/SectionLoader'
+
 const initialValues = {
   first_name: '',
   last_name: '',
@@ -30,6 +37,16 @@ const textFields = [
   { name: 'email', label: 'Correo electrónico', type: 'email', autoComplete: 'email' },
   { name: 'phone', label: 'Teléfono', type: 'tel', autoComplete: 'tel' },
 ] as const
+
+const stateOptions = mexicoStates.map((state) => ({
+  value: state,
+  label: state,
+}))
+
+const subjectOptions = contactSubjects.map((subject) => ({
+  value: subject,
+  label: subject,
+}))
 
 export default function ContactForm() {
   const [values, setValues] = useState(initialValues)
@@ -125,96 +142,60 @@ export default function ContactForm() {
     >
       <div className="contact-form-grid">
         {textFields.map((field) => (
-          <div className="contact-form-field" key={field.name}>
-            <label htmlFor={`contact-${field.name}`}>
-              {field.label} *
-            </label>
-
-            <input
-              id={`contact-${field.name}`}
-              type={field.type}
-              autoComplete={field.autoComplete}
-              value={values[field.name]}
-              onChange={(event) =>
-                updateField(field.name, event.target.value)
-              }
-              aria-invalid={Boolean(errors[field.name])}
-              disabled={submitting}
-            />
-
-            {errors[field.name] && (
-              <span className="contact-field-error">
-                {errors[field.name]}
-              </span>
-            )}
-          </div>
+          <Input
+            key={field.name}
+            id={`contact-${field.name}`}
+            label={`${field.label} *`}
+            type={field.type}
+            autoComplete={field.autoComplete}
+            value={values[field.name]}
+            onChange={(event) =>
+              updateField(field.name, event.target.value)
+            }
+            error={errors[field.name]}
+            disabled={submitting}
+          />
         ))}
-
-        <div className="contact-form-field">
-          <label htmlFor="contact-state">Estado *</label>
-          <select
-            id="contact-state"
-            value={values.state}
-            onChange={(event) =>
-              updateField('state', event.target.value)
-            }
-            aria-invalid={Boolean(errors.state)}
-            disabled={submitting}
-          >
-            <option value="">Selecciona tu estado</option>
-            {mexicoStates.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-          {errors.state && (
-            <span className="contact-field-error">{errors.state}</span>
-          )}
-        </div>
-
-        <div className="contact-form-field">
-          <label htmlFor="contact-subject">Asunto *</label>
-          <select
-            id="contact-subject"
-            value={values.subject}
-            onChange={(event) =>
-              updateField('subject', event.target.value)
-            }
-            aria-invalid={Boolean(errors.subject)}
-            disabled={submitting}
-          >
-            <option value="">Selecciona un asunto</option>
-            {contactSubjects.map((subject) => (
-              <option key={subject} value={subject}>
-                {subject}
-              </option>
-            ))}
-          </select>
-          {errors.subject && (
-            <span className="contact-field-error">{errors.subject}</span>
-          )}
-        </div>
-      </div>
-
-      <div className="contact-form-field">
-        <label htmlFor="contact-message">Mensaje *</label>
-        <textarea
-          id="contact-message"
-          rows={6}
-          maxLength={3000}
-          value={values.message}
+        <Select
+          id="contact-state"
+          label="Estado *"
+          options={stateOptions}
+          placeholder="Selecciona tu estado"
+          value={values.state}
           onChange={(event) =>
-            updateField('message', event.target.value)
+            updateField('state', event.target.value)
           }
-          aria-invalid={Boolean(errors.message)}
+          error={errors.state}
           disabled={submitting}
-          placeholder="Cuéntanos cómo podemos ayudarte..."
         />
-        {errors.message && (
-          <span className="contact-field-error">{errors.message}</span>
-        )}
+
+        <Select
+          id="contact-subject"
+          label="Asunto *"
+          options={subjectOptions}
+          placeholder="Selecciona un asunto"
+          value={values.subject}
+          onChange={(event) =>
+            updateField('subject', event.target.value)
+          }
+          error={errors.subject}
+          disabled={submitting}
+        />
       </div>
+
+      <Textarea
+        id="contact-message"
+        label="Mensaje *"
+        rows={6}
+        maxLength={3000}
+        value={values.message}
+        onChange={(event) =>
+          updateField('message', event.target.value)
+        }
+        error={errors.message}
+        disabled={submitting}
+        placeholder="Cuéntanos cómo podemos ayudarte..."
+      />
 
       <div className="contact-privacy">
         <label>
@@ -236,13 +217,17 @@ export default function ContactForm() {
         )}
       </div>
 
-      <button
-        className="contact-submit"
+      <Button
+        variant="primary"
         type="submit"
         disabled={submitting}
       >
         {submitting ? 'Enviando mensaje...' : 'Enviar mensaje'}
-      </button>
+      </Button>
+
+      {submitting && (
+        <SectionLoader section="contact" />
+      )}
 
       {feedback && (
         <p

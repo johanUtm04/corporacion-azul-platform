@@ -1,0 +1,38 @@
+/* CORPORACIÓN AZUL — SKELETON LOADER */
+
+.ui-skeleton {
+  display: block;
+  flex-shrink: 0;
+
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+/* Rounded variation */
+
+.ui-skeleton--rounded {
+  border-radius: 999px;
+}
+
+/* Loading animation */
+
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-skeleton {
+    animation: none;
+    opacity: 0.8;
+  }
+}

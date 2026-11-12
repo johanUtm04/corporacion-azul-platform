@@ -1,23 +1,8 @@
-
+@import './styles/tokens.css';
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  font-family: 'Mulish', sans-serif;
-
-  /* Corporación Azul — Design Tokens */
-  --color-primary: #103b70;
-  --color-primary-dark: #092749;
-  --color-accent: #c92f3b;
-
-  --color-heading: #182437;
-  --color-text: #4c5b6c;
-  --color-muted: #7c8997;
-
-  --color-white: #ffffff;
-  --color-background: #f8fafc;
-  --color-border: #e7ecf1;
-
-  --container-width: 1240px;
+  font-family: var(--font-family-base);
 
   color: var(--color-text);
   background: var(--color-white);

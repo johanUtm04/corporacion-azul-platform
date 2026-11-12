@@ -1,0 +1,94 @@
+/* CORPORACIÓN AZUL — SECTION LOADER */
+
+.section-loader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-4);
+
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.section-loader-mascot {
+  width: 80px;
+  height: 90px;
+  object-fit: contain;
+  flex-shrink: 0;
+
+  animation: section-mascot-float 1.6s ease-in-out infinite;
+}
+
+.section-loader-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.section-loader-message {
+  margin: 0 0 var(--space-3);
+
+  color: var(--color-primary-dark);
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.section-loader-track {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.section-loader-progress {
+  display: block;
+  width: 32%;
+  height: 100%;
+
+  background: var(--color-primary);
+  border-radius: inherit;
+
+  animation: section-progress 1.5s ease-in-out infinite;
+}
+
+/* Section identity */
+
+.section-loader--contact .section-loader-progress {
+  background: var(--color-accent);
+}
+
+/* Animations */
+
+@keyframes section-mascot-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes section-progress {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(320%);
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .section-loader-mascot,
+  .section-loader-progress {
+    animation: none;
+  }
+}

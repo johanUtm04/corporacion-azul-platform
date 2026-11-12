@@ -1,0 +1,50 @@
+.ui-input-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.ui-input-field label {
+  color: var(--color-primary-dark);
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.ui-input {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 16px;
+
+  font: inherit;
+  color: var(--color-heading);
+  background: var(--color-white);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.ui-input:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(16, 59, 112, 0.12);
+}
+
+.ui-input[aria-invalid="true"] {
+  border-color: var(--color-accent);
+}
+
+.ui-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ui-input-error {
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+}

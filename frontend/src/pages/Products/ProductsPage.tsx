@@ -14,6 +14,7 @@ import ProductGrid from '../../features/products/ProductGrid'
 import ProductSearch from '../../features/products/ProductSearch'
 import ProductFilters from '../../features/products/ProductFilters'
 import ProductPagination from '../../features/products/ProductPagination'
+import ProductGridSkeleton from '../../features/products/ProductGridSkeleton'
 
 export default function ProductsPage() {
   const [catalog, setCatalog] = useState<ProductListResponse | null>(null)
@@ -147,7 +148,7 @@ export default function ProductsPage() {
         />
       )}
 
-      {loading && <p role="status">Cargando productos...</p>}
+      {loading && <ProductGridSkeleton count={6} />}
 
       {error && <p role="alert">{error}</p>}
 
