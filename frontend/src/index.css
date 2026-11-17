@@ -1,6 +1,7 @@
 @import './styles/tokens.css';
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&display=swap');
 
+@import './styles/page-layout.css';
 :root {
   font-family: var(--font-family-base);
 
@@ -291,8 +292,13 @@ p {
   transition: color 0.2s ease;
 }
 
-.footer-column a:hover {
+.footer-column a[aria-current="page"] {
   color: #ffffff;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
 .footer-bottom {

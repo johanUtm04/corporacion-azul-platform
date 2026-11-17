@@ -43,7 +43,7 @@ export default function FeaturedBrands() {
       <ul className="featured-brands-grid">
         {brands.map((brand, index) => (
           <li className="brand-card" key={brand}>
-            <span className="brand-card-number">
+            <span className="brand-card-number" aria-hidden="true">
               {String(index + 1).padStart(2, '0')}
             </span>
 

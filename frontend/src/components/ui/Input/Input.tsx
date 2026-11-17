@@ -27,7 +27,9 @@ export default function Input({
         className={`ui-input ${className}`.trim()}
         aria-invalid={Boolean(error)}
         aria-describedby={
-          error ? errorId : props['aria-describedby']
+          [props['aria-describedby'], error && errorId]
+            .filter(Boolean)
+            .join(' ') || undefined
         }
       />
 

@@ -1,26 +1,10 @@
-/* PRODUCT CATALOG */
+/* ==========================================
+   CORPORACIÓN AZUL — PRODUCT CATALOG
+   ========================================== */
 
-.catalog-page {
-  padding: 30px 0 90px;
-}
-
-.catalog-eyebrow {
-  color: var(--color-accent);
-  font-size: 0.75rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-}
-
-.catalog-page h1 {
-  margin: 18px 0;
-  font-size: clamp(2.7rem, 5vw, 4.5rem);
-}
-
-.catalog-description {
-  max-width: 650px;
-  color: var(--color-text);
-  line-height: 1.8;
-}
+/* ------------------------------------------
+   1. CATALOG RESULTS
+   ------------------------------------------ */
 
 .catalog-results {
   margin: 40px 0 24px;
@@ -29,7 +13,9 @@
   font-weight: 700;
 }
 
-/* PRODUCT GRID */
+/* ------------------------------------------
+   2. PRODUCT GRID
+   ------------------------------------------ */
 
 .product-grid {
   display: grid;
@@ -37,20 +23,22 @@
   gap: 24px;
 }
 
-/* PRODUCT CARD */
+/* ------------------------------------------
+   3. PRODUCT CARD
+   ------------------------------------------ */
 
 .product-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 36px;
+  gap: 24px;
 
-  min-height: 290px;
-  padding: 30px;
+  min-height: 420px;
+  padding: 24px;
 
-  background: #f8fafc;
+  background: var(--color-background);
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 
   transition:
     transform 0.25s ease,
@@ -63,6 +51,51 @@
   border-color: #c4d1df;
   box-shadow: 0 15px 35px rgba(9, 39, 73, 0.06);
 }
+
+/* ------------------------------------------
+   4. PRODUCT IMAGE
+   ------------------------------------------ */
+
+.product-card-media {
+  width: 100%;
+}
+
+.product-card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  object-fit: contain;
+  padding: 16px;
+
+  background: #eef3f8;
+  border-radius: var(--radius-sm);
+}
+
+.product-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 16px;
+
+  background:
+    linear-gradient(135deg, #eef3f8 0%, #e6edf5 100%);
+
+  border: 1px dashed #c7d2e0;
+  border-radius: var(--radius-sm);
+
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ------------------------------------------
+   5. PRODUCT INFORMATION
+   ------------------------------------------ */
 
 .product-card-top {
   display: flex;
@@ -96,6 +129,10 @@
   line-height: 1.35;
 }
 
+/* ------------------------------------------
+   6. PRODUCT LINKS
+   ------------------------------------------ */
+
 .product-card-link {
   display: inline-flex;
   align-items: center;
@@ -113,80 +150,9 @@
   color: var(--color-accent);
 }
 
-/* RESPONSIVE */
-
-@media (max-width: 900px) {
-  .product-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .catalog-page {
-    padding: 15px 0 60px;
-  }
-
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .product-card {
-    min-height: 240px;
-  }
-}
-
-.product-card {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  min-height: 420px;
-  padding: 24px;
-
-  background: #f8fafc;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.product-card-media {
-  width: 100%;
-}
-
-.product-card-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 4px;
-  border: 1px dashed #c7d2e0;
-  background:
-    linear-gradient(135deg, #eef3f8 0%, #e6edf5 100%);
-  color: var(--color-muted);
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-align: center;
-  padding: 16px;
-}
-
-.product-card-image {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: contain;
-  background: #eef3f8;
-  border-radius: 4px;
-  padding: 16px;
-}
-
-
-/* PRODUCT SEARCH */
+/* ------------------------------------------
+   7. PRODUCT SEARCH
+   ------------------------------------------ */
 
 .product-search {
   max-width: 650px;
@@ -196,6 +162,7 @@
 .product-search label {
   display: block;
   margin-bottom: 12px;
+
   color: var(--color-heading);
   font-size: 0.85rem;
   font-weight: 800;
@@ -211,8 +178,10 @@
   min-width: 0;
   min-height: 50px;
   padding: 12px 16px;
+
   border: 1px solid var(--color-border);
   border-radius: 3px;
+
   background: #fff;
   color: var(--color-heading);
 }
@@ -222,8 +191,62 @@
   outline-offset: 2px;
 }
 
+/* ==========================================
+   8. PRODUCT GRID — SMOOTH ENTRANCE
+   ========================================== */
+
+.product-grid:not([aria-hidden="true"]) {
+  animation: product-grid-enter 220ms ease-out both;
+}
+
+@keyframes product-grid-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   9. RESPONSIVE — TABLETS
+   ========================================== */
+
+@media (max-width: 900px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ==========================================
+   10. RESPONSIVE — MOBILE
+   ========================================== */
+
+@media (max-width: 640px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    min-height: 240px;
+  }
+}
+
 @media (max-width: 480px) {
   .product-search-controls {
     flex-direction: column;
+  }
+}
+
+/* ==========================================
+   11. ACCESSIBILITY
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .product-grid:not([aria-hidden="true"]) {
+    animation: none;
   }
 }

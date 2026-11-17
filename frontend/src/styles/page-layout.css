@@ -1,0 +1,41 @@
+/* ==========================================
+   CORPORACIÓN AZUL — SHARED PAGE LAYOUT
+   ========================================== */
+
+/* Page container */
+
+.catalog-page {
+  padding: 30px 0 90px;
+}
+
+/* Section label */
+
+.catalog-eyebrow {
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+/* Page heading */
+
+.catalog-page h1 {
+  margin: 18px 0;
+  font-size: clamp(2.7rem, 5vw, 4.5rem);
+}
+
+/* Page description */
+
+.catalog-description {
+  max-width: 650px;
+  color: var(--color-text);
+  line-height: 1.8;
+}
+
+/* Responsive */
+
+@media (max-width: 640px) {
+  .catalog-page {
+    padding: 15px 0 60px;
+  }
+}

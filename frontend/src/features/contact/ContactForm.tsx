@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   contactSchema,
   contactSubjects,
@@ -49,6 +49,7 @@ const subjectOptions = contactSubjects.map((subject) => ({
 }))
 
 export default function ContactForm() {
+  const serverErrorFocusRef = useRef<Field | null>(null)
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState<FieldErrors>({})
   const [submitting, setSubmitting] = useState(false)
@@ -74,6 +75,20 @@ export default function ContactForm() {
     setFeedback(null)
   }
 
+  useEffect(() => {
+  if (submitting || !serverErrorFocusRef.current) return
+
+  const field = serverErrorFocusRef.current
+  serverErrorFocusRef.current = null
+
+  const fieldId =
+    field === 'privacy_accepted'
+      ? 'contact-privacy-input'
+      : `contact-${field}`
+
+  document.getElementById(fieldId)?.focus()
+  }, [submitting, errors])
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (submitting) return
@@ -95,6 +110,20 @@ export default function ContactForm() {
       })
 
       setErrors(nextErrors)
+
+      const firstError = Object.keys(nextErrors)[0] as Field | undefined
+
+      if (firstError) {
+        const fieldId =
+          firstError === 'privacy_accepted'
+            ? 'contact-privacy-input'
+            : `contact-${firstError}`
+
+        requestAnimationFrame(() => {
+          document.getElementById(fieldId)?.focus()
+        })
+      }
+
       return
     }
 
@@ -118,7 +147,23 @@ export default function ContactForm() {
           }
         })
 
+        serverErrorFocusRef.current =
+          (Object.keys(serverErrors)[0] as Field | undefined) ?? null
         setErrors(serverErrors)
+
+        const firstError = Object.keys(serverErrors)[0] as Field | undefined
+
+        if (firstError) {
+          const fieldId =
+            firstError === 'privacy_accepted'
+              ? 'contact-privacy-input'
+              : `contact-${firstError}`
+
+          requestAnimationFrame(() => {
+            document.getElementById(fieldId)?.focus()
+          })
+        }
+
         setFeedback({
           type: 'error',
           message: error.message,
@@ -200,6 +245,7 @@ export default function ContactForm() {
       <div className="contact-privacy">
         <label>
           <input
+            id="contact-privacy-input"
             type="checkbox"
             checked={values.privacy_accepted}
             onChange={(event) =>
@@ -217,6 +263,7 @@ export default function ContactForm() {
         )}
       </div>
 
+    <div className="contact-submit-row">
       <Button
         variant="primary"
         type="submit"
@@ -224,19 +271,39 @@ export default function ContactForm() {
       >
         {submitting ? 'Enviando mensaje...' : 'Enviar mensaje'}
       </Button>
+    </div>
 
-      {submitting && (
-        <SectionLoader section="contact" />
-      )}
+    {submitting && (
+      <SectionLoader
+        section="contact"
+        fullscreen
+      />
+    )}
 
-      {feedback && (
-        <p
-          className={`contact-feedback contact-feedback-${feedback.type}`}
-          role={feedback.type === 'error' ? 'alert' : 'status'}
-        >
+    {feedback && (
+      <div
+        className={`contact-feedback contact-feedback-${feedback.type}`}
+        role={feedback.type === 'error' ? 'alert' : 'status'}
+      >
+        <span className="contact-feedback-icon" aria-hidden="true">
+          {feedback.type === 'success' ? '✓' : '!'}
+        </span>
+
+        <p className="contact-feedback-text">
           {feedback.message}
         </p>
-      )}
+
+        <button
+          type="button"
+          className="contact-feedback-close"
+          onClick={() => setFeedback(null)}
+          aria-label="Cerrar notificación"
+        >
+          ×
+        </button>
+      </div>
+    )}
+
     </form>
   )
 }

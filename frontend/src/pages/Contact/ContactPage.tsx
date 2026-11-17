@@ -1,5 +1,4 @@
-﻿
-import ContactForm from '../../features/contact/ContactForm'
+﻿import ContactForm from '../../features/contact/ContactForm'
 
 export default function ContactPage() {
   return (
@@ -8,7 +7,7 @@ export default function ContactPage() {
         ESTAMOS PARA AYUDARTE
       </span>
 
-      <h1>Contacto</h1>
+      <h1 id="contact-page-title">Contacto</h1>
 
       <p className="catalog-description">
         ¿Tienes alguna pregunta sobre nuestros productos,

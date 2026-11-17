@@ -2,7 +2,9 @@
    CORPORACIÓN AZUL — CONTACT FORM
    ========================================== */
 
-/* Form container */
+/* ------------------------------------------
+   1. FORM CONTAINER
+   ------------------------------------------ */
 
 .contact-form {
   width: 100%;
@@ -17,7 +19,9 @@
   font-family: var(--font-family-base);
 }
 
-/* Form layout */
+/* ------------------------------------------
+   2. FORM LAYOUT
+   ------------------------------------------ */
 
 .contact-form-grid {
   display: grid;
@@ -26,7 +30,9 @@
   margin-bottom: var(--space-6);
 }
 
-/* Privacy checkbox */
+/* ------------------------------------------
+   3. PRIVACY CHECKBOX
+   ------------------------------------------ */
 
 .contact-privacy {
   margin: 28px 0;
@@ -49,8 +55,8 @@
   width: 18px;
   height: 18px;
   margin: 2px 0 0;
-  flex-shrink: 0;
 
+  flex-shrink: 0;
   accent-color: var(--color-primary);
   cursor: pointer;
 }
@@ -60,10 +66,13 @@
   outline-offset: 3px;
 }
 
-/* Privacy validation */
+/* ------------------------------------------
+   4. VALIDATION ERRORS
+   ------------------------------------------ */
 
 .contact-field-error {
   display: block;
+
   color: var(--color-accent);
   font-size: 12px;
   font-weight: 700;
@@ -74,45 +83,172 @@
   margin-top: 10px;
 }
 
-/* Submit button layout */
+/* ------------------------------------------
+   5. SUBMIT AREA
+   ------------------------------------------ */
 
-@media (max-width: 480px) {
-  .contact-form .ui-button {
-    width: 100%;
+.contact-submit-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* Fullscreen loader integration */
+
+.contact-form .section-loader--fullscreen {
+  margin: 0;
+}
+
+/* ==========================================
+   6. FLOATING FEEDBACK TOAST
+   ========================================== */
+
+.contact-feedback {
+  position: fixed;
+  bottom: calc(
+    20px + env(safe-area-inset-bottom, 0px)
+  );
+  inset-inline: 0;
+  z-index: 3200;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  width: min(460px, calc(100% - 32px));
+  margin-inline: auto;
+  padding: 16px 18px;
+
+  background: var(--color-white);
+  color: var(--color-primary-dark);
+
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+
+  box-shadow:
+    0 12px 32px rgba(9, 39, 73, 0.10),
+    0 2px 8px rgba(9, 39, 73, 0.04);
+
+  animation: contact-toast-enter 350ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ------------------------------------------
+   7. SUCCESS STATE
+   ------------------------------------------ */
+
+.contact-feedback-success .contact-feedback-icon {
+  background: #eaf6ee;
+  color: #27834d;
+}
+
+/* ------------------------------------------
+   8. ERROR STATE
+   ------------------------------------------ */
+
+.contact-feedback-error {
+  border-left-color: var(--color-accent);
+}
+
+.contact-feedback-error .contact-feedback-icon {
+  background: #fff0f1;
+  color: var(--color-accent);
+}
+
+/* ------------------------------------------
+   9. TOAST ICON
+   ------------------------------------------ */
+
+.contact-feedback-icon {
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* ------------------------------------------
+   10. TOAST MESSAGE
+   ------------------------------------------ */
+
+.contact-feedback-text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+
+  color: var(--color-primary-dark);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------
+   11. CLOSE BUTTON
+   ------------------------------------------ */
+
+.contact-feedback-close {
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+  align-self: center;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+  color: var(--color-primary-dark);
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.contact-feedback-close:hover {
+  background: rgba(9, 39, 73, 0.06);
+}
+
+.contact-feedback-close:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   12. TOAST ENTRANCE ANIMATION
+   ========================================== */
+
+@keyframes contact-toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* API feedback */
-
-.contact-feedback {
-  margin-top: var(--space-6);
-  padding: var(--space-4) 20px;
-
-  border: 1px solid;
-  border-radius: var(--radius-md);
-
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.6;
-}
-
-/* Success feedback */
-
-.contact-feedback-success {
-  color: #166534;
-  background: #f0fdf4;
-  border-color: #bbf7d0;
-}
-
-/* Error feedback */
-
-.contact-feedback-error {
-  color: #991b1b;
-  background: #fef2f2;
-  border-color: #fecaca;
-}
-
-/* Responsive — Tablets */
+/* ==========================================
+   13. RESPONSIVE — TABLETS
+   ========================================== */
 
 @media (max-width: 768px) {
   .contact-form {
@@ -126,16 +262,43 @@
   }
 }
 
-/* Responsive — Mobile */
+/* ==========================================
+   14. RESPONSIVE — MOBILE
+   ========================================== */
 
 @media (max-width: 480px) {
   .contact-form {
     padding: 20px 16px;
     border-radius: var(--radius-md);
   }
+
+  .contact-submit-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact-form .ui-button {
+    width: 100%;
+  }
+
+  .contact-feedback {
+    bottom: calc(
+      12px + env(safe-area-inset-bottom, 0px)
+    );
+
+    width: calc(100% - 24px);
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .contact-feedback-text {
+    font-size: 0.8125rem;
+  }
 }
 
-/* Reduced motion */
+/* ==========================================
+   15. ACCESSIBILITY
+   ========================================== */
 
 @media (prefers-reduced-motion: reduce) {
   .contact-form *,
@@ -143,8 +306,8 @@
   .contact-form *::after {
     transition: none;
   }
-}
 
-.contact-form .section-loader {
-  margin-top: var(--space-4);
+  .contact-feedback {
+    animation: none;
+  }
 }

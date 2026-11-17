@@ -36,11 +36,9 @@ export default function Select({
         className={`ui-select ${className}`.trim()}
         aria-invalid={Boolean(error)}
         aria-describedby={
-          error
-            ? [props['aria-describedby'], errorId]
-                .filter(Boolean)
-                .join(' ')
-            : props['aria-describedby']
+          [props['aria-describedby'], error && errorId]
+            .filter(Boolean)
+            .join(' ') || undefined
         }
       >
         <option value="">{placeholder}</option>
