@@ -14,6 +14,7 @@ const SuccessStoriesPage = lazy(
 )
 const AboutUsPage = lazy(() => import('./pages/AboutUs/AboutUsPage'))
 const ContactPage = lazy(() => import('./pages/Contact/ContactPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFound/NotFoundPage'))
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path="/casos-de-exito" element={<SuccessStoriesPage />} />
           <Route path="/nosotros" element={<AboutUsPage />} />
           <Route path="/contacto" element={<ContactPage />} />
-          <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </Suspense>
