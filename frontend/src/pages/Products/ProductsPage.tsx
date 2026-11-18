@@ -44,6 +44,8 @@ export default function ProductsPage() {
   const [filtersLoading, setFiltersLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filtersError, setFiltersError] = useState<string | null>(null)
+  const [productsRetryKey, setProductsRetryKey] = useState(0)
+  const [filtersRetryKey, setFiltersRetryKey] = useState(0)
 
   // Load brand and category options
   useEffect(() => {
@@ -65,7 +67,7 @@ export default function ProductsPage() {
     return () => {
       active = false
     }
-  }, [])
+  }, [filtersRetryKey])
 
   // Load products whenever search, filters, or page changes
   useEffect(() => {
@@ -98,12 +100,23 @@ export default function ProductsPage() {
     return () => {
       active = false
     }
-  }, [page, search, selectedBrand, selectedCategory])
+  }, [page, search, selectedBrand, selectedCategory, productsRetryKey])
 
   // Keep previous results while requesting new ones
   function prepareNewRequest() {
     setLoading(true)
     setError(null)
+  }
+
+  function handleRetryProducts() {
+    prepareNewRequest()
+    setProductsRetryKey((current) => current + 1)
+  }
+
+  function handleRetryFilters() {
+    setFiltersLoading(true)
+    setFiltersError(null)
+    setFiltersRetryKey((current) => current + 1)
   }
 
   function handleSearch(nextSearch: string) {
@@ -198,11 +211,19 @@ export default function ProductsPage() {
       {filtersLoading && (
         <p role="status">Cargando filtros...</p>
       )}
-
       {filtersError && (
-        <p role="alert">{filtersError}</p>
-      )}
+        <div role="alert">
+          <p>{filtersError}</p>
 
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={handleRetryFilters}
+          >
+            Reintentar filtros
+          </button>
+        </div>
+      )}
       {/* Filters */}
       {filterOptions && (
         <ProductFilters
@@ -229,7 +250,17 @@ export default function ProductsPage() {
 
       {/* API errors */}
       {error && (
-        <p role="alert">{error}</p>
+        <div role="alert">
+          <p>{error}</p>
+
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={handleRetryProducts}
+          >
+            Reintentar
+          </button>
+        </div>
       )}
 
       {/* Catalog results */}

@@ -2,6 +2,7 @@ import type {
   ProductListResponse,
   ProductFiltersResponse,
 } from '../../types/product'
+import { fetchApiJson} from './fetchApiJson'
 
 interface ProductFilters {
   page?: number
@@ -28,19 +29,7 @@ export async function getProducts(
     }
   })
 
-  const response = await fetch(url, {
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch products: HTTP ${response.status}`
-    )
-  }
-
-  return response.json() as Promise<ProductListResponse>
+  return fetchApiJson<ProductListResponse>(url)
 }
 
 export async function getProductFilters(): Promise<ProductFiltersResponse> {
@@ -52,17 +41,5 @@ export async function getProductFilters(): Promise<ProductFiltersResponse> {
 
   const url = new URL('/api/v1/product-filters', baseUrl)
 
-  const response = await fetch(url, {
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch product filters: HTTP ${response.status}`
-    )
-  }
-
-  return response.json() as Promise<ProductFiltersResponse>
+  return fetchApiJson<ProductFiltersResponse>(url)
 }
