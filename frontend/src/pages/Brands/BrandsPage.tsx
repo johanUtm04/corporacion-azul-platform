@@ -1,5 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
-
+import SectionLoader from '../../components/ui/SectionLoader/SectionLoader'
 import { getProductFilters } from '../../services/api/products'
 import type { ProductFilterOption } from '../../types/product'
 import { Link } from 'react-router'
@@ -9,6 +9,7 @@ export default function BrandsPage() {
   const [brands, setBrands] = useState<ProductFilterOption[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [retryKey, setRetryKey] = useState(0)
 
   useEffect(() => {
     let active = true
@@ -33,7 +34,13 @@ export default function BrandsPage() {
     return () => {
       active = false
     }
-  }, [])
+  },  [retryKey])
+
+  function handleRetry() {
+    setLoading(true)
+    setError(null)
+    setRetryKey((current) => current + 1)
+  }
 
   return (
     <section
@@ -52,11 +59,21 @@ export default function BrandsPage() {
       </p>
 
       {loading && (
-        <p role="status">Cargando marcas...</p>
+        <SectionLoader section="brands" />
       )}
 
       {error && (
-        <p role="alert">{error}</p>
+        <div role="alert">
+          <p>{error}</p>
+
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={handleRetry}
+          >
+            Reintentar
+          </button>
+        </div>
       )}
 
       {!loading && !error && brands.length === 0 && (

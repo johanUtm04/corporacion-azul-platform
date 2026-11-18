@@ -1,6 +1,6 @@
 import './SectionLoader.css'
 
-type LoaderSection = 'home' | 'products' | 'contact' | 'branches'
+type LoaderSection = 'home' | 'products' |'brands'| 'contact' | 'branches'
 
 interface SectionLoaderProps {
   section: LoaderSection
@@ -13,6 +13,7 @@ const messages: Record<LoaderSection, string> = {
   contact: 'Enviando tu mensaje...',
   branches: 'Buscando nuestras sucursales...',
   home: 'Preparando tu experiencia...',
+  brands: 'Preparando nuestras marcas...',
 }
 
 export default function SectionLoader({
@@ -20,10 +21,6 @@ export default function SectionLoader({
   message,
   fullscreen = false,
 }: SectionLoaderProps) {
-  const mascotSrc =
-  section === 'contact'
-    ? '/images/mascots/cruzazulito-contact.webp'
-    : '/images/mascots/cruzazulito-base.png'
   return (
     <div
       className={`section-loader section-loader--${section} ${
@@ -33,29 +30,64 @@ export default function SectionLoader({
       aria-live="polite"
     >
 
-      {section === 'home' ? (
+      {section === 'products' ? (
+        <picture>
+        <source
+          media="(prefers-reduced-motion: reduce)"
+          srcSet="/images/mascots/cruzazulito-base.png"
+        />
+          <img
+            src="/images/mascots/cruzazulito-products.gif"
+            alt=""
+            className="section-loader-mascot"
+          />
+        </picture>
+        ) : section === 'brands' ? (
+          <picture>
+            <source
+              media="(prefers-reduced-motion: reduce)"
+              srcSet="/images/mascots/cruzazulito-brands.png"
+            />
+            <img
+              src="/images/mascots/cruzazulito-brands.gif"
+              alt=""
+              className="section-loader-mascot"
+            />
+          </picture>
+        ) : section === 'home' ? (
+
+      <picture>
+        <source
+          media="(prefers-reduced-motion: reduce)"
+          srcSet="/images/mascots/cruzazulito-base.png"
+        />
+        <img
+          src="/images/mascots/cruzazulito-home.webp"
+          alt=""
+          className="section-loader-mascot"
+        />
+      </picture>
+
+      ) : section === 'contact' ? (
         <picture>
           <source
             media="(prefers-reduced-motion: reduce)"
-            srcSet="/images/mascots/cruzazulito-home.png"
-          />
-          <source
-            type="image/webp"
-            srcSet="/images/mascots/cruzazulito-home.webp"
+            srcSet="/images/mascots/cruzazulito-base.png"
           />
           <img
-            src="/images/mascots/cruzazulito-home.gif"
+            src="/images/mascots/cruzazulito-contact.webp"
             alt=""
             className="section-loader-mascot"
           />
         </picture>
       ) : (
         <img
-          src={mascotSrc}
+          src="/images/mascots/cruzazulito-base.png"
           alt=""
           className="section-loader-mascot"
         />
       )}
+
       <div className="section-loader-info">
         <p className="section-loader-message">
           {message ?? messages[section]}

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import './ProductsPage.css'
 import { useSearchParams } from 'react-router'
-
+import SectionLoader from '../../components/ui/SectionLoader/SectionLoader'
 import {
   getProducts,
   getProductFilters,
@@ -236,9 +236,11 @@ export default function ProductsPage() {
         />
       )}
 
-      {/* Skeletons only when no catalog data exists yet */}
       {loading && !catalog && (
-        <ProductGridSkeleton count={6} />
+        <>
+          <SectionLoader section="products" />
+          <ProductGridSkeleton count={6} />
+        </>
       )}
 
       {/* Feedback while updating existing products */}
