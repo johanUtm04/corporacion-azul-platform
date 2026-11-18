@@ -1,0 +1,143 @@
+/* ==========================================
+   FULLSCREEN — LIGHT GLASS OVERLAY
+   ========================================== */
+
+.section-loader--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+
+  width: 100%;
+  max-width: none;
+  min-height: 100dvh;
+  margin: 0;
+  padding: var(--space-6);
+
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Cruzazulito */
+
+.section-loader--fullscreen .section-loader-mascot {
+  width: 185px;
+  max-width: 65vw;
+  height: auto;
+
+  animation: loader-mascot-enter 320ms ease-out both;
+
+  filter: drop-shadow(
+    0 12px 18px rgba(9, 39, 73, 0.1)
+  );
+}
+
+/* Loading message */
+
+.section-loader--fullscreen .section-loader-info {
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 280px;
+
+  text-align: center;
+}
+
+.section-loader--fullscreen .section-loader-message {
+  margin: 0 0 var(--space-4);
+
+  color: var(--color-primary-dark);
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+/* Progress indicator */
+
+.section-loader--fullscreen .section-loader-track {
+  width: 200px;
+  max-width: 100%;
+  height: 4px;
+  margin-inline: auto;
+
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.section-loader--fullscreen .section-loader-progress {
+  display: block;
+  width: 32%;
+  height: 100%;
+
+  background: var(--color-accent);
+  border-radius: inherit;
+
+  animation: section-progress 1.5s ease-in-out infinite;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .section-loader--fullscreen .section-loader-mascot {
+    width: 145px;
+  }
+
+  .section-loader--fullscreen .section-loader-message {
+    font-size: 1rem;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .section-loader--fullscreen .section-loader-progress {
+    animation: none;
+    width: 100%;
+    opacity: 0.45;
+  }
+}
+
+
+/* ==========================================
+   FULLSCREEN — ENTRANCE ANIMATIONS
+   ========================================== */
+
+@keyframes loader-overlay-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes loader-mascot-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .section-loader--fullscreen,
+  .section-loader--fullscreen .section-loader-mascot {
+    animation: none;
+  }
+}
+
+.section-loader--fullscreen picture {
+  display: block;
+  line-height: 0;
+}

@@ -3,11 +3,6 @@ import type { Branch } from './branches'
 interface BranchListProps {
   branches: Branch[]
   onSelect: (branch: Branch) => void
-}
-
-interface BranchListProps {
-  branches: Branch[]
-  onSelect: (branch: Branch) => void
   getDistanceKm?: (branch: Branch) => number
 }
 

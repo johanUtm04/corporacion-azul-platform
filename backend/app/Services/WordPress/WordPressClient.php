@@ -170,6 +170,7 @@ class WordPressClient
     /**
      * Retrieve product filter options from WordPress.
      */
+
     public function getProductFilters(): array
     {
         $baseUrl = $this->getBaseUrl();
@@ -200,7 +201,7 @@ class WordPressClient
             }
 
             $filters[$key] = array_map(
-                function (array $term): array {
+                function (array $term) use ($key): array {
                     if (
                         !isset($term['id'], $term['name'], $term['slug']) ||
                         !is_int($term['id']) ||
@@ -212,11 +213,31 @@ class WordPressClient
                         );
                     }
 
-                    return [
+                    $option = [
                         'id' => $term['id'],
                         'name' => $term['name'],
                         'slug' => $term['slug'],
                     ];
+
+                    if ($key === 'brands') {
+                        $logoUrl = $term['logo_url'] ?? null;
+
+                        if (
+                            $logoUrl !== null &&
+                            (
+                                !is_string($logoUrl) ||
+                                !filter_var($logoUrl, FILTER_VALIDATE_URL)
+                            )
+                        ) {
+                            throw new UnexpectedValueException(
+                                'Invalid WordPress brand logo URL.'
+                            );
+                        }
+
+                        $option['logo_url'] = $logoUrl;
+                    }
+
+                    return $option;
                 },
                 $terms
             );

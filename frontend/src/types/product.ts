@@ -22,6 +22,7 @@ export interface ProductFilterOption {
   id: number
   name: string
   slug: string
+  logo_url?: string | null
 }
 
 export interface ProductFiltersResponse {

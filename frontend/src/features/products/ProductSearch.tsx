@@ -1,14 +1,16 @@
-import { useState, type FormEvent } from 'react'
+import type { FormEvent } from 'react'
 
 type ProductSearchProps = {
+  query: string
+  onQueryChange: (query: string) => void
   onSearch: (search: string) => void
 }
 
 export default function ProductSearch({
+  query,
+  onQueryChange,
   onSearch,
 }: ProductSearchProps) {
-  const [query, setQuery] = useState('')
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     onSearch(query.trim())
@@ -27,7 +29,9 @@ export default function ProductSearch({
           placeholder="Ej. Cemento Cruz Azul"
           value={query}
           maxLength={100}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) =>
+            onQueryChange(event.target.value)
+          }
         />
 
         <button type="submit" className="btn-primary">
